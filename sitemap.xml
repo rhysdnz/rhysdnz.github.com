@@ -1,15 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://rhysdnz.github.io/blog/archives/</loc>
-        <lastmod>2013-06-18T16:18:04+12:00</lastmod>
+        <loc>http://rhysd.co.nz/blog/2013/06/19/generating-config-with-hashes-in-puppet/</loc>
+        <lastmod>2013-06-19T21:13:43+12:00</lastmod>
     </url>
     <url>
-        <loc>http://rhysdnz.github.io/</loc>
-        <lastmod>2013-06-18T16:18:04+12:00</lastmod>
+        <loc>http://rhysd.co.nz/blog/archives/</loc>
+        <lastmod>2013-06-19T21:13:43+12:00</lastmod>
     </url>
     <url>
-        <loc>http://rhysdnz.github.io/robots.txt</loc>
+        <loc>http://rhysd.co.nz/</loc>
+        <lastmod>2013-06-19T21:13:43+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://rhysd.co.nz/robots.txt</loc>
         <lastmod>2013-06-18T16:18:04+12:00</lastmod>
     </url>
 </urlset>

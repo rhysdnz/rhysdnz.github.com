@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: puppet | rhysd]]></title>
+  <link href="http://rhysd.co.nz/blog/categories/puppet/atom.xml" rel="self"/>
+  <link href="http://rhysd.co.nz/"/>
+  <updated>2013-06-19T21:14:52+12:00</updated>
+  <id>http://rhysd.co.nz/</id>
+  <author>
+    <name><![CDATA[Rhys Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Generating config with hashes in puppet]]></title>
+    <link href="http://rhysd.co.nz/blog/2013/06/19/generating-config-with-hashes-in-puppet/"/>
+    <updated>2013-06-19T20:32:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2013/06/19/generating-config-with-hashes-in-puppet</id>
+    <content type="html"><![CDATA[<p>Playing around with puppet today (as always) and stumbled across a sweet pattern in a couple of modules for creating config files from hashes. Particularly good for building overriding config.</p>
+
+<p>So here is the template</p>
+
+<p>``` bash mysql.d.cnf.erb</p>
+
+<h3>MANAGED BY PUPPET</h3>
+
+<p>&lt;% @settings.sort.each do |section, content|      &ndash;%>
+[&lt;%= section %>]
+&lt;%   content.sort.each do |key, values|          &ndash;%>
+&lt;%     [values].flatten.sort.each do |value|     &ndash;%>
+&lt;%= value == false ? &lsquo;#&rsquo; : &lsquo;&rsquo; %>&lt;%= key &ndash;%>&lt;%=</p>
+
+<pre><code>     case value
+     when true, false
+       ''
+     else
+       " = #{value}"
+     end
+</code></pre>
+
+<p>%>
+&lt;%     end                                       &ndash;%>
+&lt;%   end                                         &ndash;%></p>
+
+<p>&lt;% end                                           &ndash;%>
+```
+and now the puppet define</p>
+
+<p>``` bash override.pp
+define mysql::server::config ($settings,) {</p>
+
+<p>  file { &ldquo;/etc/mysql/conf.d/${name}.cnf&rdquo;:</p>
+
+<pre><code>ensure  =&gt; file,
+content =&gt;  template('mysql/mysql.d.cnf.erb'),
+owner   =&gt; 'root',
+group   =&gt; 'root',
+mode    =&gt; '0644',
+require =&gt; Package['mysql-server'],
+</code></pre>
+
+<p>  }
+```</p>
+
+<p>and now the site.pp</p>
+
+<p>``` ruby site.pp
+ mysql::server::config { &lsquo;dns_repl&rsquo;:</p>
+
+<pre><code> settings =&gt; {
+   'mysqld' =&gt; {
+     'server-id'             =&gt; '5',
+     'query_cache_limit'     =&gt; '5M',
+     'query_cache_size'      =&gt; '128M',
+     'replicate-do-db'       =&gt; [ 'dns', 'radius' ] 
+    }
+ }
+</code></pre>
+
+<p>  }
+```
+this will create a file that looks like</p>
+
+<p><code>bash /etc/mysql/conf.d/dns_repl.cnf
+   [mysqld]
+   server-id = 5
+   query_cache_limit = 5M
+   query_cache_size = 128M
+   replicate-do-db = dns
+   replicate-do-db = radius
+</code></p>
+
+<p>So this is obviously awesome. Super flexible no need to define each varible you want to add into config. Just add each var to your node definition&hellip;</p>
+
+<p>So far I have used this template style for powerdns and mysql config files but I am sure there are heaps more uses for this style of config generation.</p>
+
+<!-- more -->
+
+
+<p>Also first..!1 whoop</p>
+]]></content>
+  </entry>
+  
+</feed>

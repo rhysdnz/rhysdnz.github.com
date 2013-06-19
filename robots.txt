@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://rhysdnz.github.io/sitemap.xml 
+Sitemap: http://rhysd.co.nz/sitemap.xml 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: puppet | rhysd]]></title>
   <link href="http://rhysd.co.nz/blog/categories/puppet/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2013-06-19T21:14:52+12:00</updated>
+  <updated>2013-06-19T21:36:34+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -54,7 +54,7 @@ define mysql::server::config ($settings,) {</p>
 <p>  file { &ldquo;/etc/mysql/conf.d/${name}.cnf&rdquo;:</p>
 
 <pre><code>ensure  =&gt; file,
-content =&gt;  template('mysql/mysql.d.cnf.erb'),
+content =&gt; template('mysql/mysql.d.cnf.erb'),
 owner   =&gt; 'root',
 group   =&gt; 'root',
 mode    =&gt; '0644',
@@ -66,7 +66,7 @@ require =&gt; Package['mysql-server'],
 
 <p>and now the site.pp</p>
 
-<p>``` ruby site.pp
+<p>``` bash site.pp
  mysql::server::config { &lsquo;dns_repl&rsquo;:</p>
 
 <pre><code> settings =&gt; {

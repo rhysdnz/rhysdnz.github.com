@@ -148,7 +148,7 @@
 </span><span class='line'>
 </span><span class='line'>  file <span class="o">{</span> <span class="s2">&quot;/etc/mysql/conf.d/${name}.cnf&quot;</span>:
 </span><span class='line'>    <span class="nv">ensure</span>  <span class="o">=</span>&gt; file,
-</span><span class='line'>    <span class="nv">content</span> <span class="o">=</span>&gt;  template<span class="o">(</span><span class="s1">&#39;mysql/mysql.d.cnf.erb&#39;</span><span class="o">)</span>,
+</span><span class='line'>    <span class="nv">content</span> <span class="o">=</span>&gt; template<span class="o">(</span><span class="s1">&#39;mysql/mysql.d.cnf.erb&#39;</span><span class="o">)</span>,
 </span><span class='line'>    <span class="nv">owner</span>   <span class="o">=</span>&gt; <span class="s1">&#39;root&#39;</span>,
 </span><span class='line'>    <span class="nv">group</span>   <span class="o">=</span>&gt; <span class="s1">&#39;root&#39;</span>,
 </span><span class='line'>    <span class="nv">mode</span>    <span class="o">=</span>&gt; <span class="s1">&#39;0644&#39;</span>,
@@ -169,16 +169,16 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="ss">mysql</span><span class="p">:</span><span class="ss">:server</span><span class="o">::</span><span class="n">config</span> <span class="p">{</span> <span class="s1">&#39;dns_repl&#39;</span><span class="p">:</span>
-</span><span class='line'>     <span class="n">settings</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>       <span class="s1">&#39;mysqld&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span><span class='line'>         <span class="s1">&#39;server-id&#39;</span>             <span class="o">=&gt;</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span>
-</span><span class='line'>         <span class="s1">&#39;query_cache_limit&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;5M&#39;</span><span class="p">,</span>
-</span><span class='line'>         <span class="s1">&#39;query_cache_size&#39;</span>      <span class="o">=&gt;</span> <span class="s1">&#39;128M&#39;</span><span class="p">,</span>
-</span><span class='line'>         <span class="s1">&#39;replicate-do-db&#39;</span>       <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">&#39;dns&#39;</span><span class="p">,</span> <span class="s1">&#39;radius&#39;</span> <span class="o">]</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>     <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> mysql::server::config <span class="o">{</span> <span class="s1">&#39;dns_repl&#39;</span>:
+</span><span class='line'>     <span class="nv">settings</span> <span class="o">=</span>&gt; <span class="o">{</span>
+</span><span class='line'>       <span class="s1">&#39;mysqld&#39;</span> <span class="o">=</span>&gt; <span class="o">{</span>
+</span><span class='line'>         <span class="s1">&#39;server-id&#39;</span>             <span class="o">=</span>&gt; <span class="s1">&#39;5&#39;</span>,
+</span><span class='line'>         <span class="s1">&#39;query_cache_limit&#39;</span>     <span class="o">=</span>&gt; <span class="s1">&#39;5M&#39;</span>,
+</span><span class='line'>         <span class="s1">&#39;query_cache_size&#39;</span>      <span class="o">=</span>&gt; <span class="s1">&#39;128M&#39;</span>,
+</span><span class='line'>         <span class="s1">&#39;replicate-do-db&#39;</span>       <span class="o">=</span>&gt; <span class="o">[</span> <span class="s1">&#39;dns&#39;</span>, <span class="s1">&#39;radius&#39;</span> <span class="o">]</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>     <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

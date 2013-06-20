@@ -1,4 +1,4 @@
 rhysd.co.nz
 ===========
 
-Rhys sucks.
+Rhys is cool.

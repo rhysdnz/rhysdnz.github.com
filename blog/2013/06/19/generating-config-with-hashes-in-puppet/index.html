@@ -92,6 +92,9 @@
 
 <div class="entry-content"><p>Playing around with puppet today (as always) and stumbled across a sweet pattern in a couple of modules for creating config files from hashes. Particularly good for building overriding config.</p>
 
+<!-- more -->
+
+
 <p>So here is the template</p>
 
 <figure class='code'><figcaption><span>mysql.d.cnf.erb </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -201,9 +204,6 @@
 <p>So this is obviously awesome. Super flexible no need to define each varible you want to add into config. Just add each var to your node definition&hellip;</p>
 
 <p>So far I have used this template style for powerdns and mysql config files but I am sure there are heaps more uses for this style of config generation.</p>
-
-<!-- more -->
-
 
 <p>Also first..!1 whoop</p>
 </div>

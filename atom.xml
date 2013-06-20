@@ -4,7 +4,7 @@
   <title><![CDATA[service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2013-06-20T22:00:42+12:00</updated>
+  <updated>2013-06-20T22:03:13+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -19,6 +19,9 @@
     <updated>2013-06-19T20:32:00+12:00</updated>
     <id>http://rhysd.co.nz/blog/2013/06/19/generating-config-with-hashes-in-puppet</id>
     <content type="html"><![CDATA[<p>Playing around with puppet today (as always) and stumbled across a sweet pattern in a couple of modules for creating config files from hashes. Particularly good for building overriding config.</p>
+
+<!-- more -->
+
 
 <p>So here is the template</p>
 
@@ -129,9 +132,6 @@
 <p>So this is obviously awesome. Super flexible no need to define each varible you want to add into config. Just add each var to your node definition&hellip;</p>
 
 <p>So far I have used this template style for powerdns and mysql config files but I am sure there are heaps more uses for this style of config generation.</p>
-
-<!-- more -->
-
 
 <p>Also first..!1 whoop</p>
 ]]></content>

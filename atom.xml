@@ -4,7 +4,7 @@
   <title><![CDATA[service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2013-06-20T22:04:27+12:00</updated>
+  <updated>2013-06-21T12:31:51+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Puppet client setup script]]></title>
+    <link href="http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script/"/>
+    <updated>2013-06-21T12:26:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script</id>
+    <content type="html"><![CDATA[<p>Simple but useful script for setting up puppet on client machines</p>
+
+<!-- more -->
+
+
+<div><script src='https://gist.github.com/5827861.js?file=puppet_client'></script>
+<noscript><pre><code>#!/bin/bash
+
+if [ $# == 0 ] ; then
+cat &lt;&lt;EOF
+Usage: $0 DIST (wheezy,squeeze,lucid) FQDN
+
+EOF
+  exit 2
+fi
+
+DIST=$1
+FQDN=$2
+INSTALLED=$(dpkg-query -W --showformat='${Status}\n' puppet | grep &quot;install ok installed&quot;)
+
+if [ &quot;xxx&quot; == &quot;$DIST&quot;&quot;xxx&quot; ];then
+ echo Please enter distribution
+ exit 1
+fi
+
+if [ &quot;xxx&quot; == &quot;$FQDN&quot;&quot;xxx&quot; ]; then
+ echo Please enter puppet master fqdn
+ exit 1
+fi
+
+if [ &quot;xxx&quot; == &quot;$INSTALLED&quot;&quot;xxx&quot; ]; then
+  wget http://apt.puppetlabs.com/puppetlabs-release-$DIST.deb
+  dpkg -i puppetlabs-release-$DIST.deb
+  apt-get update
+  apt-get install puppet
+  cat - &gt; /etc/puppet/puppet.conf &lt;&lt;EOF
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/facter
+templatedir=$confdir/templates
+server=$FQDN
+EOF
+
+ else
+   echo &quot;Puppet already installed&quot;
+fi</code></pre></noscript></div>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Generating config with hashes in puppet]]></title>

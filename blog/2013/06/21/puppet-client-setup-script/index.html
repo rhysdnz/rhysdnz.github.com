@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: puppet - service rhysd reload</title>
+  <title>Puppet client setup script - service rhysd reload</title>
   <meta name="author" content="Rhys Davies">
 
   
-  <meta name="description" content="Category: puppet">
+  <meta name="description" content="Simple but useful script for setting up puppet on client machines #!/bin/bash if [ $# == 0 ] ; then
+cat &lt;&lt;EOF
+Usage: $0 DIST (wheezy,squeeze, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rhysd.co.nzblog/categories/puppet">
+  <link rel="canonical" href="http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="service rhysd reload" type="application/atom+xml">
@@ -63,50 +65,144 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Puppet</h1>
+    
+      <h1 class="entry-title">Puppet Client Setup Script</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-21T12:26:00+12:00" pubdate data-updated="true">Jun 21<span>st</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Simple but useful script for setting up puppet on client machines</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/06/21/puppet-client-setup-script/">Puppet client setup script</a></h1>
-<time datetime="2013-06-21T12:26:00+12:00" pubdate><span class='month'>Jun</span> <span class='day'>21</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/puppet/'>puppet</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<div><script src='https://gist.github.com/5827861.js?file=puppet_client'></script>
+<noscript><pre><code>#!/bin/bash
+
+if [ $# == 0 ] ; then
+cat &lt;&lt;EOF
+Usage: $0 DIST (wheezy,squeeze,lucid) FQDN
+
+EOF
+  exit 2
+fi
+
+DIST=$1
+FQDN=$2
+INSTALLED=$(dpkg-query -W --showformat='${Status}\n' puppet | grep &quot;install ok installed&quot;)
+
+if [ &quot;xxx&quot; == &quot;$DIST&quot;&quot;xxx&quot; ];then
+ echo Please enter distribution
+ exit 1
+fi
+
+if [ &quot;xxx&quot; == &quot;$FQDN&quot;&quot;xxx&quot; ]; then
+ echo Please enter puppet master fqdn
+ exit 1
+fi
+
+if [ &quot;xxx&quot; == &quot;$INSTALLED&quot;&quot;xxx&quot; ]; then
+  wget http://apt.puppetlabs.com/puppetlabs-release-$DIST.deb
+  dpkg -i puppetlabs-release-$DIST.deb
+  apt-get update
+  apt-get install puppet
+  cat - &gt; /etc/puppet/puppet.conf &lt;&lt;EOF
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/facter
+templatedir=$confdir/templates
+server=$FQDN
+EOF
+
+ else
+   echo &quot;Puppet already installed&quot;
+fi</code></pre></noscript></div>
 
 
-
-<article>
-  
-<h1><a href="/blog/2013/06/19/generating-config-with-hashes-in-puppet/">Generating config with hashes in puppet</a></h1>
-<time datetime="2013-06-19T20:32:00+12:00" pubdate><span class='month'>Jun</span> <span class='day'>19</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/puppet/'>puppet</a></span>
-</footer>
-
-
-</article>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Rhys Davies</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-21T12:26:00+12:00" pubdate data-updated="true">Jun 21<span>st</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/puppet/'>puppet</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script/" data-via="wtfhacks" data-counturl="http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/19/generating-config-with-hashes-in-puppet/" title="Previous Post: Generating config with hashes in puppet">&laquo; Generating config with hashes in puppet</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -157,7 +253,10 @@
       var disqus_shortname = 'rhysd';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script/';
+        var disqus_url = 'http://rhysd.co.nz/blog/2013/06/21/puppet-client-setup-script/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

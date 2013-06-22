@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nagios | service rhysd reload]]></title>
+  <link href="http://rhysd.co.nz/blog/categories/nagios/atom.xml" rel="self"/>
+  <link href="http://rhysd.co.nz/"/>
+  <updated>2013-06-22T17:15:16+12:00</updated>
+  <id>http://rhysd.co.nz/</id>
+  <author>
+    <name><![CDATA[Rhys Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Nagios - openvpn client check]]></title>
+    <link href="http://rhysd.co.nz/blog/2013/06/22/nagios-openvpn-client-check/"/>
+    <updated>2013-06-22T17:12:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2013/06/22/nagios-openvpn-client-check</id>
+    <content type="html"><![CDATA[<p>Nagios plugin for monitoring openvpn client connections</p>
+
+<!--more-->
+
+
+<p><div><script src='https://gist.github.com/5819020.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: puppet | service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/blog/categories/puppet/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2013-06-23T15:02:47+12:00</updated>
+  <updated>2013-06-23T20:20:46+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Could not autoload puppet/indirector/facts/active_record]]></title>
+    <link href="http://rhysd.co.nz/blog/2013/06/23/could-not-autoload-puppet-slash-indirector-slash-facts-slash-active-record/"/>
+    <updated>2013-06-23T20:10:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2013/06/23/could-not-autoload-puppet-slash-indirector-slash-facts-slash-active-record</id>
+    <content type="html"><![CDATA[<p>After recently upgrading our puppetmaster to 3.2.2 to mitigate a remote <a href="http://packetstormsecurity.com/files/122076/Puppet-Remote-Code-Execution.html">exploit</a>. I ran into this error on all nodes</p>
+
+<!--more-->
+
+
+<p><code>
+Error: Could not retrieve catalog from remote server: Error 400 on SERVER: Could not autoload puppet/indirector/facts/active_record: no such file to load -- active_record
+Warning: Not using cache on failed catalog
+Error: Could not retrieve catalog; skipping run
+</code></p>
+
+<p>So I&rsquo;m guessing your using stored configs on your puppetmaster. Apparently this is now deprecated as it says at the top of this <a href="http://projects.puppetlabs.com/projects/1/wiki/using_stored_configuration">page</a>.</p>
+
+<p>So the answer is to install and migrate to <a href="http://docs.puppetlabs.com/puppetdb/">PuppetDB</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Creating local accounts in puppet]]></title>

@@ -21,12 +21,18 @@
         <lastmod>2013-06-22T22:04:25+12:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://rhysd.co.nz/blog/2013/06/23/could-not-autoload-puppet-slash-indirector-slash-facts-slash-active-record/
+        </loc>
+        <lastmod>2013-06-23T20:20:44+12:00</lastmod>
+    </url>
+    <url>
         <loc>http://rhysd.co.nz/blog/archives/</loc>
-        <lastmod>2013-06-22T22:04:25+12:00</lastmod>
+        <lastmod>2013-06-23T20:20:44+12:00</lastmod>
     </url>
     <url>
         <loc>http://rhysd.co.nz/</loc>
-        <lastmod>2013-06-22T22:04:25+12:00</lastmod>
+        <lastmod>2013-06-23T20:20:44+12:00</lastmod>
     </url>
     <url>
         <loc>http://rhysd.co.nz/robots.txt</loc>

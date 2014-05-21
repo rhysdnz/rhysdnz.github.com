@@ -4,7 +4,7 @@
   <title><![CDATA[Category: puppet | service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/blog/categories/puppet/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2014-05-21T14:34:16+12:00</updated>
+  <updated>2014-05-21T21:36:20+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -20,7 +20,7 @@
     <id>http://rhysd.co.nz/blog/2014/05/21/building-nagios-config-with-puppet</id>
     <content type="html"><![CDATA[<p>Dragging up a half finished post from the past AFAIK its still relevant and no less awesome</p>
 
-<p>Building nagios config with puppet!1</p>
+<p>Building nagios config with puppet!!1</p>
 
 <!--more-->
 
@@ -53,8 +53,18 @@ database_host     =&gt; 'localhost',
 database_port     =&gt; '5432',
 </code></pre>
 
-<p>   }
-```
+<p>   }</p>
+
+<p>  class { &lsquo;puppetdb::master::config&rsquo;:</p>
+
+<pre><code>puppetdb_server =&gt; 'manager.unleash.net.nz',
+puppetdb_port   =&gt; 8081,
+puppet_conf =&gt; '/etc/puppet/puppet.conf',
+</code></pre>
+
+<p>  }</p>
+
+<p>```
 Yes you should use puppet to manage puppet!!!!!!!</p>
 
 <p>Now for the good stuff</p>

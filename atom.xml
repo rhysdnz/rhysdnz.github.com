@@ -4,7 +4,7 @@
   <title><![CDATA[service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2014-05-21T14:34:16+12:00</updated>
+  <updated>2014-05-21T21:36:20+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -20,7 +20,7 @@
     <id>http://rhysd.co.nz/blog/2014/05/21/building-nagios-config-with-puppet</id>
     <content type="html"><![CDATA[<p>Dragging up a half finished post from the past AFAIK its still relevant and no less awesome</p>
 
-<p>Building nagios config with puppet!1</p>
+<p>Building nagios config with puppet!!1</p>
 
 <!--more-->
 
@@ -53,6 +53,12 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">node</span> <span class="n">puppetmaster</span><span class="o">.</span><span class="n">rhysd</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">nz</span>
 </span><span class='line'>  <span class="k">class</span> <span class="p">{</span> <span class="s1">&#39;puppetdb::server&#39;</span><span class="p">:</span>
 </span><span class='line'>    <span class="n">database</span> <span class="o">=&gt;</span> <span class="n">postgres</span><span class="p">,</span>
@@ -62,6 +68,12 @@
 </span><span class='line'>    <span class="n">database_host</span>     <span class="o">=&gt;</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
 </span><span class='line'>    <span class="n">database_port</span>     <span class="o">=&gt;</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
 </span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="p">{</span> <span class="s1">&#39;puppetdb::master::config&#39;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">puppetdb_server</span> <span class="o">=&gt;</span> <span class="s1">&#39;manager.unleash.net.nz&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">puppetdb_port</span>   <span class="o">=&gt;</span> <span class="mi">8081</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">puppet_conf</span> <span class="o">=&gt;</span> <span class="s1">&#39;/etc/puppet/puppet.conf&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

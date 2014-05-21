@@ -4,7 +4,7 @@
   <title><![CDATA[Category: puppet | service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/blog/categories/puppet/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2014-05-21T13:45:52+12:00</updated>
+  <updated>2014-05-21T14:34:16+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -12,6 +12,93 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building nagios config with puppet]]></title>
+    <link href="http://rhysd.co.nz/blog/2014/05/21/building-nagios-config-with-puppet/"/>
+    <updated>2014-05-21T21:23:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2014/05/21/building-nagios-config-with-puppet</id>
+    <content type="html"><![CDATA[<p>Dragging up a half finished post from the past AFAIK its still relevant and no less awesome</p>
+
+<p>Building nagios config with puppet!1</p>
+
+<!--more-->
+
+
+<p>This setup uses exported resources and this requires your puppetmaster to be setup to use stored configuration. So we need to turn it on and install puppetdb.</p>
+
+<p><code>bash puppet.conf
+[puppetmasterd]
+storeconfigs = true
+dbadapter = puppetdb
+</code></p>
+
+<p>Use the Puppet labis puppetdb module (because its easy and maintained)</p>
+
+<p>puppet module install puppetlabs-puppetdb</p>
+
+<p>or</p>
+
+<p>wget <a href="https://forgeapi.puppetlabs.com/v3/files/puppetlabs-puppetdb-3.0.1.tar.gz">https://forgeapi.puppetlabs.com/v3/files/puppetlabs-puppetdb-3.0.1.tar.gz</a></p>
+
+<p>``` ruby site.pp
+ node puppetmaster.rhysd.co.nz
+  class { &lsquo;puppetdb::server&rsquo;:</p>
+
+<pre><code>database =&gt; postgres,
+database_name     =&gt; puppetdb,
+database_username =&gt; 'puppet',
+database_password =&gt; 'use_pwgen_you_monkey',
+database_host     =&gt; 'localhost',
+database_port     =&gt; '5432',
+</code></pre>
+
+<p>   }
+```
+Yes you should use puppet to manage puppet!!!!!!!</p>
+
+<p>Now for the good stuff</p>
+
+<p>``` ruby nagios.pp
+class nagios::checks {</p>
+
+<pre><code>  @@nagios_host { $fqdn:
+     ensure =&gt; present,
+     alias =&gt; $hostname,
+     address =&gt; $ipaddress,
+     use =&gt; "generic-host",
+     target =&gt; "/etc/puppet/modules/nagios/files/host_${::fqdn}.cfg"
+  }
+
+  @@nagios_hostextinfo { $fqdn:
+     ensure =&gt; present,
+     icon_image_alt =&gt; $operatingsystem,
+     icon_image =&gt; "base/$operatingsystem.png",
+     statusmap_image =&gt; "base/$operatingsystem.gd2",
+     target =&gt; "/etc/puppet/modules/nagios/files/host_${::fqdn}.cfg"
+  }
+
+  @@nagios_service { "check_ping_${hostname}":
+     use =&gt; "check_ping",
+     host_name =&gt; "$fqdn",
+     target =&gt; "/etc/puppet/modules/nagios/files/host_${::fqdn}.cfg"
+  }
+</code></pre>
+
+<p>}
+<code>
+</code> ruby site.pp
+node &lsquo;nagios.rhysd.co.nz&rsquo; {
+  Nagios_Host &lt;&lt;||>>
+  Nagios_Service &lt;&lt;||>>
+}
+```</p>
+
+<p>This is a basic example setting a nagios host and a ping check. In this each host has its own nagios configation file into the nagios modules file directory.</p>
+
+<p>Where this technique becomes powerful is when you start adding nagios service checks to other modules to mantain total monitoring coverage. RAWR</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Could not autoload puppet/indirector/facts/active_record]]></title>

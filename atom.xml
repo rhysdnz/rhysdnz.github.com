@@ -4,7 +4,7 @@
   <title><![CDATA[service rhysd reload]]></title>
   <link href="http://rhysd.co.nz/atom.xml" rel="self"/>
   <link href="http://rhysd.co.nz/"/>
-  <updated>2013-06-23T22:00:15+12:00</updated>
+  <updated>2014-05-21T13:45:52+12:00</updated>
   <id>http://rhysd.co.nz/</id>
   <author>
     <name><![CDATA[Rhys Davies]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Building nagios config with puppet]]></title>
+    <link href="http://rhysd.co.nz/blog/2014/05/21/building-nagios-config-with-puppet/"/>
+    <updated>2014-05-21T21:23:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2014/05/21/building-nagios-config-with-puppet</id>
+    <content type="html"><![CDATA[<p>Dragging up a half finished post from the past AFAIK its still relevant and no less awesome</p>
+
+<p>Building nagios config with puppet!1</p>
+
+<!--more-->
+
+
+<p>This setup uses exported resources and this requires your puppetmaster to be setup to use stored configuration. So we need to turn it on and install puppetdb.</p>
+
+<figure class='code'><figcaption><span>puppet.conf</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>puppetmasterd<span class="o">]</span>
+</span><span class='line'><span class="nv">storeconfigs</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="nv">dbadapter</span> <span class="o">=</span> puppetdb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use the Puppet labis puppetdb module (because its easy and maintained)</p>
+
+<p>puppet module install puppetlabs-puppetdb</p>
+
+<p>or</p>
+
+<p>wget <a href="https://forgeapi.puppetlabs.com/v3/files/puppetlabs-puppetdb-3.0.1.tar.gz">https://forgeapi.puppetlabs.com/v3/files/puppetlabs-puppetdb-3.0.1.tar.gz</a></p>
+
+<figure class='code'><figcaption><span>site.pp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">node</span> <span class="n">puppetmaster</span><span class="o">.</span><span class="n">rhysd</span><span class="o">.</span><span class="n">co</span><span class="o">.</span><span class="n">nz</span>
+</span><span class='line'>  <span class="k">class</span> <span class="p">{</span> <span class="s1">&#39;puppetdb::server&#39;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">database</span> <span class="o">=&gt;</span> <span class="n">postgres</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">database_name</span>     <span class="o">=&gt;</span> <span class="n">puppetdb</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">database_username</span> <span class="o">=&gt;</span> <span class="s1">&#39;puppet&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">database_password</span> <span class="o">=&gt;</span> <span class="s1">&#39;use_pwgen_you_monkey&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">database_host</span>     <span class="o">=&gt;</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">database_port</span>     <span class="o">=&gt;</span> <span class="s1">&#39;5432&#39;</span><span class="p">,</span>
+</span><span class='line'>   <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yes you should use puppet to manage puppet!!!!!!!</p>
+
+<p>Now for the good stuff</p>
+
+<figure class='code'><figcaption><span>nagios.pp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="ss">nagios</span><span class="p">:</span><span class="ss">:checks</span> <span class="p">{</span>
+</span><span class='line'>      <span class="vc">@@nagios_host</span> <span class="p">{</span> <span class="vg">$fqdn</span><span class="p">:</span>
+</span><span class='line'>         <span class="k">ensure</span> <span class="o">=&gt;</span> <span class="n">present</span><span class="p">,</span>
+</span><span class='line'>         <span class="k">alias</span> <span class="o">=&gt;</span> <span class="vg">$hostname</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">address</span> <span class="o">=&gt;</span> <span class="vg">$ipaddress</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">use</span> <span class="o">=&gt;</span> <span class="s2">&quot;generic-host&quot;</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">target</span> <span class="o">=&gt;</span> <span class="s2">&quot;/etc/puppet/modules/nagios/files/host_${::fqdn}.cfg&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="vc">@@nagios_hostextinfo</span> <span class="p">{</span> <span class="vg">$fqdn</span><span class="p">:</span>
+</span><span class='line'>         <span class="k">ensure</span> <span class="o">=&gt;</span> <span class="n">present</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">icon_image_alt</span> <span class="o">=&gt;</span> <span class="vg">$operatingsystem</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">icon_image</span> <span class="o">=&gt;</span> <span class="s2">&quot;base/$operatingsystem.png&quot;</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">statusmap_image</span> <span class="o">=&gt;</span> <span class="s2">&quot;base/$operatingsystem.gd2&quot;</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">target</span> <span class="o">=&gt;</span> <span class="s2">&quot;/etc/puppet/modules/nagios/files/host_${::fqdn}.cfg&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="vc">@@nagios_service</span> <span class="p">{</span> <span class="s2">&quot;check_ping_${hostname}&quot;</span><span class="p">:</span>
+</span><span class='line'>         <span class="n">use</span> <span class="o">=&gt;</span> <span class="s2">&quot;check_ping&quot;</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">host_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;$fqdn&quot;</span><span class="p">,</span>
+</span><span class='line'>         <span class="n">target</span> <span class="o">=&gt;</span> <span class="s2">&quot;/etc/puppet/modules/nagios/files/host_${::fqdn}.cfg&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>site.pp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">node</span> <span class="s1">&#39;nagios.rhysd.co.nz&#39;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="no">Nagios_Host</span> <span class="o">&lt;&lt;||&gt;&gt;</span>
+</span><span class='line'>  <span class="no">Nagios_Service</span> <span class="o">&lt;&lt;||&gt;&gt;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a basic example setting a nagios host and a ping check. In this each host has its own nagios configation file into the nagios modules file directory.</p>
+
+<p>Where this technique becomes powerful is when you start adding nagios service checks to other modules to mantain total monitoring coverage. RAWR</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Could not autoload puppet/indirector/facts/active_record]]></title>

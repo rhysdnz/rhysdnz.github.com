@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Juniper, | service rhysd reload]]></title>
+  <link href="http://rhysd.co.nz/blog/categories/juniper/atom.xml" rel="self"/>
+  <link href="http://rhysd.co.nz/"/>
+  <updated>2014-05-21T21:50:35+12:00</updated>
+  <id>http://rhysd.co.nz/</id>
+  <author>
+    <name><![CDATA[Rhys Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Extreme Networks to Juniper LACP]]></title>
+    <link href="http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp/"/>
+    <updated>2014-05-21T22:18:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp</id>
+    <content type="html"><![CDATA[<p>Setting up a LAG between Extreme and Juniper switches isn&rsquo;t hard</p>
+
+<p>This example is between a Extreme Alpine x350 and a Juniper ex4200.</p>
+
+<!-- more -->
+
+
+<p>On the Extreme switch:</p>
+
+<p><code>bash extreme
+enable sharing &lt;Master Port&gt; grouping &lt;port list&gt; &lt;type&gt;
+enable sharing 47 grouping 47,48 lacp
+</code></p>
+
+<p>This will put ports 47 and 48 into a lacp trunk.</p>
+
+<p>The lacp group will default to active which is fine. When you add vlans to the lacp trunk add them to the master port.</p>
+
+<p>On the Juniper side:</p>
+
+<p>Make sure your chassis has enough aggregated devices to allow for another.</p>
+
+<p><code>bash juniper
+set chassis aggregated-devices ethernet device-count 10
+</code></p>
+
+<p>```
+   ge-0/0/0 {</p>
+
+<pre><code>   ether-options {
+       802.3ad ae2;
+   }
+</code></pre>
+
+<p>   }
+   ge-1/0/0 {</p>
+
+<pre><code>   ether-options {
+       802.3ad ae2;
+   }
+</code></pre>
+
+<p>   }
+  ae2 {</p>
+
+<pre><code>   description "Lag link to Extreme switch";
+   mtu 9216;
+   aggregated-ether-options {
+      lacp {
+           active;
+       }
+   }
+   unit 0 {
+       family ethernet-switching {
+           port-mode trunk;
+       }
+   }
+</code></pre>
+
+<p>   }
+```
+The above configuration added ge-0/0/0 and ge-1/0/0 into an lacp (802.3ad) interface called ae2 (aggregated ethernet 2). The Extreme x350&rsquo;s I was using has a max MTU of 9216.. hence the MTU size.</p>
+
+<p>Once up it will creating a single 2G interface. That will seamless drop to 1G if either interface dies.</p>
+]]></content>
+  </entry>
+  
+</feed>

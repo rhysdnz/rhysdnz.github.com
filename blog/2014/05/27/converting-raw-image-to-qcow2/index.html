@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Extreme Networks to Juniper LACP - service rhysd reload</title>
+  <title>Converting raw image to qcow2 - service rhysd reload</title>
   <meta name="author" content="Rhys Davies">
 
   
-  <meta name="description" content="Setting up a LAG between Extreme and Juniper switches isn&rsquo;t hard This example is between a Extreme Alpine x350 and a Juniper ex4200. On the &hellip;">
+  <meta name="description" content="So you created a raw format and now you realise that resizing it is a PITA. Your wishing you just used lvm or qcow or some similarly flexible format &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp">
+  <link rel="canonical" href="http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="service rhysd reload" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Extreme Networks to Juniper LACP</h1>
+      <h1 class="entry-title">Converting Raw Image to Qcow2</h1>
     
     
       <p class="meta">
@@ -98,98 +98,37 @@
   
 
 
-<time datetime="2014-05-21T22:18:00+12:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+<time datetime="2014-05-27T10:28:00+12:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Setting up a LAG between Extreme and Juniper switches isn&rsquo;t hard</p>
+<div class="entry-content"><p>So you created a raw format and now you realise that resizing it is a PITA. Your wishing you just used lvm or qcow or some similarly flexible format.</p>
 
-<p>This example is between a Extreme Alpine x350 and a Juniper ex4200.</p>
+<p>Lucky is super easy to change from raw to almost anything with qcow-img</p>
 
-<!-- more -->
+<!--more-->
 
 
-<p>On the Extreme switch:</p>
 
-<figure class='code'><figcaption><span>extreme</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">enable </span>sharing &lt;Master Port&gt; grouping &lt;port list&gt; &lt;<span class="nb">type</span>&gt;
-</span><span class='line'><span class="nb">enable </span>sharing 47 grouping 47,48 lacp
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>qemu-img convert -f raw -O qcow2 Winblows.img Winblows.qcow2
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This will put ports 47 and 48 into a lacp trunk.</p>
+<p>Piece of piss</p>
 
-<p>The lacp group will default to active which is fine. When you add vlans to the lacp trunk add them to the master port.</p>
+<p>qemu-img is a super useful tool allowing you to manipulate heaps of different formats.</p>
 
-<p>On the Juniper side:</p>
-
-<p>Make sure your chassis has enough aggregated devices to allow for another.</p>
-
-<figure class='code'><figcaption><span>juniper</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">set </span>chassis aggregated-devices ethernet device-count 10
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Supported formats: host_cdrom host_floppy host_device raw nbd parallels qcow2 vvfat vpc bochs dmg cloop vmdk qcow cow
 </span></code></pre></td></tr></table></div></figure>
 
 
 
-
-<figure class='code'><figcaption><span>juniper</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>   ge-0/0/0 <span class="o">{</span>
-</span><span class='line'>       ether-options <span class="o">{</span>
-</span><span class='line'>           802.3ad ae2;
-</span><span class='line'>       <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>   ge-1/0/0 <span class="o">{</span>
-</span><span class='line'>       ether-options <span class="o">{</span>
-</span><span class='line'>           802.3ad ae2;
-</span><span class='line'>       <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'>  ae2 <span class="o">{</span>
-</span><span class='line'>       description <span class="s2">&quot;Lag link to Extreme switch&quot;</span>;
-</span><span class='line'>       mtu 9216;
-</span><span class='line'>       aggregated-ether-options <span class="o">{</span>
-</span><span class='line'>          lacp <span class="o">{</span>
-</span><span class='line'>               active;
-</span><span class='line'>           <span class="o">}</span>
-</span><span class='line'>       <span class="o">}</span>
-</span><span class='line'>       unit 0 <span class="o">{</span>
-</span><span class='line'>           family ethernet-switching <span class="o">{</span>
-</span><span class='line'>               port-mode trunk;
-</span><span class='line'>           <span class="o">}</span>
-</span><span class='line'>       <span class="o">}</span>
-</span><span class='line'>   <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above configuration added ge-0/0/0 and ge-1/0/0 into an lacp (802.3ad) interface called ae2 (aggregated ethernet 2). The Extreme x350&rsquo;s I was using has a max MTU of 9216.. hence the MTU size.</p>
-
-<p>Once up it will creating a single 2G interface. That will seamless drop to 1G if either interface dies.</p>
 </div>
 
 
@@ -212,12 +151,12 @@
   
 
 
-<time datetime="2014-05-21T22:18:00+12:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+<time datetime="2014-05-27T10:28:00+12:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/extreme/'>Extreme,</a>, <a class='category' href='/blog/categories/juniper/'>Juniper,</a>, <a class='category' href='/blog/categories/networking/'>Networking</a>
+    <a class='category' href='/blog/categories/kvm/'>kvm,</a>, <a class='category' href='/blog/categories/virtualisation/'>virtualisation</a>
   
 </span>
 
@@ -226,7 +165,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp/" data-via="wtfhacks" data-counturl="http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2/" data-via="wtfhacks" data-counturl="http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -237,10 +176,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/05/21/building-nagios-config-with-puppet/" title="Previous Post: Building nagios config with puppet">&laquo; Building nagios config with puppet</a>
+        <a class="basic-alignment left" href="/blog/2014/05/21/extreme-networks-to-juniper-lacp/" title="Previous Post: Extreme Networks to Juniper LACP">&laquo; Extreme Networks to Juniper LACP</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/05/27/converting-raw-image-to-qcow2/" title="Next Post: Converting raw image to qcow2">Converting raw image to qcow2 &raquo;</a>
       
     </p>
   </footer>
@@ -347,8 +284,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp/';
-        var disqus_url = 'http://rhysd.co.nz/blog/2014/05/21/extreme-networks-to-juniper-lacp/';
+        var disqus_identifier = 'http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2/';
+        var disqus_url = 'http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: virtualisation | service rhysd reload]]></title>
+  <link href="http://rhysd.co.nz/blog/categories/virtualisation/atom.xml" rel="self"/>
+  <link href="http://rhysd.co.nz/"/>
+  <updated>2014-05-27T10:33:40+12:00</updated>
+  <id>http://rhysd.co.nz/</id>
+  <author>
+    <name><![CDATA[Rhys Davies]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Converting raw image to qcow2]]></title>
+    <link href="http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2/"/>
+    <updated>2014-05-27T10:28:00+12:00</updated>
+    <id>http://rhysd.co.nz/blog/2014/05/27/converting-raw-image-to-qcow2</id>
+    <content type="html"><![CDATA[<p>So you created a raw format and now you realise that resizing it is a PITA. Your wishing you just used lvm or qcow or some similarly flexible format.</p>
+
+<p>Lucky is super easy to change from raw to almost anything with qcow-img</p>
+
+<!--more-->
+
+
+<p><code>bash
+qemu-img convert -f raw -O qcow2 Winblows.img Winblows.qcow2
+</code></p>
+
+<p>Piece of piss</p>
+
+<p>qemu-img is a super useful tool allowing you to manipulate heaps of different formats.</p>
+
+<p><code>bash
+Supported formats: host_cdrom host_floppy host_device raw nbd parallels qcow2 vvfat vpc bochs dmg cloop vmdk qcow cow
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
